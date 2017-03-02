@@ -7,30 +7,53 @@ require 'pry'
 require_relative 'db_connection'
 require_relative 'employee'
 require_relative 'department'
+require_relative 'database'
+ActiveRecord::Migration.verbose = false
+
 class EmployeeTest < Minitest::Test
 
-# Employee.new(name: "Robby Dore",
-#               email_address: "Rdore88@gmail.com",
-#               phone_number: "404-277-3952",
-#               salary: 60000
-#             ).save
+  def setup
+    CreateEmployeesTable.migrate(:up)
+    CreateDepartmentsTable.migrate(:up)
+  end
 
+  def teardown
+    CreateEmployeesTable.migrate(:down)
+    CreateDepartmentsTable.migrate(:down)
+  end
+
+  focus
   def test_employee_exists
     assert Employee
   end
 
+focus
   def test_employee
-    assert_equal "Robby Dore", Employee.first.name
+    robby = Employee.create(name: "Robby Dore", email_address: "Rdore88@gmail.com",
+      phone_number: "404-277-3952",salary: 60000)
+    assert_equal "Robby Dore", robby.name
   end
-
+  focus
   def test_change_salary
-    Employee.first.change_salary(5000)
-    assert_equal 70000, Employee.first.salary
+    robby = Employee.create(name: "Robby Dore", email_address: "Rdore88@gmail.com",
+      phone_number: "404-277-3952",salary: 60000)
+    robby.change_salary(5000)
+    assert_equal 65000, robby.salary
   end
-
+  focus
   def test_leave_review
-    Employee.first.leave_review("Robby is a great worker")
-    assert_equal "Robby is a great worker", Employee.first.review
+    robby = Employee.create(name: "Robby Dore", email_address: "Rdore88@gmail.com",
+      phone_number: "404-277-3952",salary: 60000)
+    robby.leave_review("Robby is a great worker")
+    assert_equal "Robby is a great worker", robby.review
+  end
+focus
+  def test_determine_if_satisfactory
+    robby = Employee.create(name: "Robby Dore", email_address: "Rdore88@gmail.com",
+      phone_number: "404-277-3952",salary: 60000)
+    robby.leave_review("Robby is a great worker")
+    robby.reload
+    assert_equal "Satisfactory", robby.determine_if_satisfactory
   end
 
 
