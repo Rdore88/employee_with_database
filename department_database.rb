@@ -1,6 +1,6 @@
 require 'active_record'
 require 'department'
-require_relative 'db_connection_departments'
+require_relative 'db_connection'
 
 class CreateDepartmentsTable < ActiveRecord::Migration[5.0]
 
