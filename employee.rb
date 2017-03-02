@@ -24,4 +24,11 @@ class Employee < ActiveRecord::Base
     end
   end
 
+  def self.who_makes_more_than_average
+    salaries = self.all.map {|el| el.salary}
+    total_salaries = salaries.reduce(0.0) {|sum, e| sum + e}
+    average_salary = total_salaries/self.all.length
+    more_than_average = self.all.select {|el| el.salary > average_salary}
+  end
+
 end
