@@ -26,7 +26,11 @@ class Department < ActiveRecord::Base
     employees_for_raises.each do |el|
     el.change_salary(amount_each)
     end
-end
+  end
+
+  def who_gets_paid_the_least
+    self.staff.sort_by {|el| el.salary}
+  end
 
 
 end

@@ -79,4 +79,15 @@ class DepartmentTest < Minitest::Test
     assert_equal 2, software.staff.length
   end
 
+  def test_who_gets_paid_the_least
+    ford = Employee.create(name: "Harrison Ford", email_address: "Mr.Kickass@imbetter.com",
+    phone_number: "234-562-4345", salary: 100000)
+    robby = Employee.create(name: "Robby Dore", email_address: "Rdore88@gmail.com",
+    phone_number: "404-277-3952",salary: 60000)
+    software = Department.create(name: "Software")
+    software.add_employee(ford)
+    software.add_employee(robby)
+    assert_equal robby, software.who_gets_paid_the_least.first
+  end
+
 end
