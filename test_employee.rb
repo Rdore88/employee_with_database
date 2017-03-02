@@ -1,4 +1,3 @@
-require_relative 'employee'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'minitest/focus'
@@ -6,7 +5,8 @@ require 'bundler/setup'
 require "active_record"
 require 'pry'
 require_relative 'db_connection'
-
+require_relative 'employee'
+require_relative 'department'
 class EmployeeTest < Minitest::Test
 
 # Employee.new(name: "Robby Dore",
@@ -24,9 +24,8 @@ class EmployeeTest < Minitest::Test
   end
 
   def test_change_salary
-    skip
     Employee.first.change_salary(5000)
-    assert_equal 65000, Employee.first.salary
+    assert_equal 70000, Employee.first.salary
   end
 
   def test_leave_review
