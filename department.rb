@@ -32,5 +32,8 @@ class Department < ActiveRecord::Base
     self.staff.sort_by {|el| el.salary}
   end
 
+  def alphabetical_order
+    self.staff.sort_by {|el| el.name}
+  end
 
 end
